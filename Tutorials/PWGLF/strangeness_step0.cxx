@@ -22,29 +22,26 @@ using namespace o2;
 using namespace o2::framework;
 using namespace o2::framework::expressions;
 
-//STEP 0
-//Starting point
+// STEP 0
+// Starting point
 struct strangeness_step0 {
 
-  //Configurable for number of bins
+  // Configurable for number of bins
   Configurable<int> nBins{"nBins", 100, "N bins in all histos"};
 
   // histogram defined with HistogramRegistry
   HistogramRegistry registry{
     "registry",
-      {
-	{"hVertexZ", "hVertexZ", {HistType::kTH1F, {{nBins, -15., 15.}}}},
-	{"hMassK0Short", "hMassK0Short", {HistType::kTH1F, {{200, 0.45f, 0.55f}}}}
-      }
-  };
+    {{"hVertexZ", "hVertexZ", {HistType::kTH1F, {{nBins, -15., 15.}}}},
+     {"hMassK0Short", "hMassK0Short", {HistType::kTH1F, {{200, 0.45f, 0.55f}}}}}};
 
-  void process(soa::Join<aod::Collisions, aod::EvSels>::iterator const& collision, aod::V0Datas const& V0s) 
+  void process(soa::Join<aod::Collisions, aod::EvSels>::iterator const& collision, aod::V0Datas const& V0s)
   {
-    //basic event selection
+    // basic event selection
     if (!collision.sel8()) {
       return;
     }
-    //Fill the event counter
+    // Fill the event counter
     registry.fill(HIST("hVertexZ"), collision.posZ());
 
     for (auto& v0 : V0s) {
